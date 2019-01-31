@@ -13,7 +13,7 @@ def encrypt_caesar(plaintext, shift):
     return plaintext.translate(table)
 
 
-encrypted = encrypt_caesar('hello there!', 3)
+encrypted = encrypt_caesar('hello!23', 2)
 print('encrypted text:', encrypted)
 
 
