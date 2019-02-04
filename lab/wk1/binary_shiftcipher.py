@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # SUTD 50.020 Security Lab 1
 # Simple file read in/out
-# Quyen, 2014
+# Clemence Goh (1002075),
+# Kenjyi Lim
 
 # Import libraries
 import sys
@@ -14,18 +15,15 @@ def doStuff(filein,fileout, shift, mode):
     fin_b = open(filein, mode='rb')  # binary read mode
     fout = open(fileout, mode='w', encoding='utf-8', newline='\n')      # write mode
     fout_b = open(fileout, mode='wb')  # binary write mode
-    c    = fin.read()         # read in file into c as a str
-    # and write to fileout
 
     # PROTIP: pythonic way
     text = fin_b.read()
-    print(text)
 
     # do stuff
     if mode == 'e' or mode == 'E':
-        fout_b.write(encrypt(bytearray(text), shift))
+        fout_b.write(encrypt(bytearray(text), int(shift)))
     elif mode == 'd' or mode == 'D':
-        fout.write(decrypt(text, shift))
+        fout_b.write(decrypt(bytearray(text), int(shift)))
     else:
         print('Wrong mode')
     # file will be closed automatically when interpreter reaches end of the block
@@ -37,11 +35,27 @@ def doStuff(filein,fileout, shift, mode):
     fout_b.close()
 
 
-def checkType(_in_args):
-    for i in _in_args:
-        if type(i) != str and type(i) != int:
-            print("Please input correct type")
+def doChecks(_in_args):
+    if type(_in_args['filein']) != str:
+        print('filename is not a string')
+        return False
+    if type(_in_args['fileout']) != str:
+        print('fileout name is not a string')
+        return False
+    try:
+        key = int(_in_args['key_optional'])
+        if not 0 <= key <= 255:
+            print('key should be within 0 and 255')
             return False
+    except ValueError:
+        print('key should be an integer')
+        return False
+
+    m = _in_args['mode_optional']
+
+    if m != 'e' and m != 'E' and m != 'd' and m != 'D':
+        print('mode should be e or d')
+        return False
     return True
 
 
@@ -50,15 +64,42 @@ def checkLength(_shift_key):
 
 
 def encrypt(_bytearray_msg, _shift):
-    new_bytearray = []
+    # create empty bytearray
+    new_bytearray = bytearray()
+
+    _shift = format(int(_shift), "b")
+
     for b in _bytearray_msg:
-        new_bytearray.append(b + _shift)
-    print(new_bytearray)
-    return new_bytearray
+        # increase
+        b = format(b, "b")
+        bin_string = bin(int(b,2) + int(_shift, 2))
+        to_hex = int(bin_string, 2)
+
+        if to_hex > 255:
+            to_hex = to_hex - 255
+
+        new_bytearray.append(to_hex)
+
+    return bytes(new_bytearray)
 
 
 def decrypt(_msg, _shift):
-    return ''
+    new_bytearray = bytearray()
+
+    _shift = format(int(_shift), "b")
+
+    for b in _msg:
+        # decrease
+        b = format(b, "b")
+        bin_string = bin(int(b,2) - int(_shift, 2))
+        to_hex = int(bin_string, 2)
+
+        if to_hex < 0:
+            to_hex = 255 + to_hex
+
+        new_bytearray.append(to_hex)
+
+    return bytes(new_bytearray)
 
 
 # our main function takes in argument
@@ -77,16 +118,16 @@ if __name__=="__main__":
     key_optional = args.key
     mode_optional = args.mode
 
-    in_args = [filein, fileout, mode_optional]
+    in_args = {
+        'filein': filein,
+        'fileout': fileout,
+        'mode_optional': mode_optional,
+        'key_optional': key_optional,
+    }
 
     # checks
-    try:
-        shift_key = int(key_optional, 16)
-    except ValueError:
-        print('key is not in hex!')
-        exit(1)
-
-    if not checkType(in_args):
+    if not doChecks(in_args):
+        print('checks not passed')
         exit(1)
 
     doStuff(filein,fileout, key_optional, mode_optional)

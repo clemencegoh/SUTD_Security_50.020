@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # SUTD 50.020 Security Lab 1
 # Simple file read in/out
-# Quyen, 2014
+# Clemence Goh (1002075),
+# Kenjyi Lim
 
 # Import libraries
 import sys
@@ -14,8 +15,6 @@ def doStuff(filein,fileout, shift, mode):
     fin_b = open(filein, mode='rb')  # binary read mode
     fout = open(fileout, mode='w', encoding='utf-8', newline='\n')      # write mode
     fout_b = open(fileout, mode='wb')  # binary write mode
-    c    = fin.read()         # read in file into c as a str
-    # and write to fileout
 
     # PROTIP: pythonic way
     with open(filein, mode="r", encoding='utf-8', newline='\n') as fin:
