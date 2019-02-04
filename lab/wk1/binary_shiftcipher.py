@@ -71,8 +71,8 @@ def encrypt(_bytearray_msg, _shift):
 
         new_num = int(b,2) + int(_shift, 2)
 
-        if new_num > 255:
-            new_num = new_num - 255
+        if new_num > 256:
+            new_num = new_num - 256
 
         new_bytearray.append(new_num)
 
@@ -92,7 +92,7 @@ def decrypt(_bytearray_msg, _shift):
         new_num = int(b,2) - int(_shift, 2)
 
         if new_num < 0:
-            new_num = new_num + 255
+            new_num = new_num + 256
 
         new_bytearray.append(new_num)
 
