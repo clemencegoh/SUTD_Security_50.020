@@ -5,7 +5,7 @@ import imghdr
 
 found_flag = False
 
-for i in range(0, 256):
+for i in range(0, 255):
     command = './binary_shiftcipher.py -i flag -o flag_out -k {} -m d'.format(i)
 
     print('trying out number:', i)

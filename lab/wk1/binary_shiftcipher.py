@@ -11,9 +11,7 @@ import string
 
 def doStuff(filein,fileout, shift, mode):
     # open file handles to both files
-    fin  = open(filein, mode='r', encoding='utf-8', newline='\n')       # read mode
     fin_b = open(filein, mode='rb')  # binary read mode
-    fout = open(fileout, mode='w', encoding='utf-8', newline='\n')      # write mode
     fout_b = open(fileout, mode='wb')  # binary write mode
 
     # PROTIP: pythonic way
@@ -29,9 +27,7 @@ def doStuff(filein,fileout, shift, mode):
     # file will be closed automatically when interpreter reaches end of the block
 
     # close all file streams
-    fin.close()
     fin_b.close()
-    fout.close()
     fout_b.close()
 
 
@@ -72,32 +68,33 @@ def encrypt(_bytearray_msg, _shift):
     for b in _bytearray_msg:
         # increase
         b = format(b, "b")
-        bin_string = bin(int(b,2) + int(_shift, 2))
-        to_hex = int(bin_string, 2)
 
-        if to_hex > 255:
-            to_hex = to_hex - 255
+        new_num = int(b,2) + int(_shift, 2)
 
-        new_bytearray.append(to_hex)
+        if new_num > 255:
+            new_num = new_num - 255
+
+        new_bytearray.append(new_num)
 
     return bytes(new_bytearray)
 
 
-def decrypt(_msg, _shift):
+def decrypt(_bytearray_msg, _shift):
+    # create empty bytearray
     new_bytearray = bytearray()
 
     _shift = format(int(_shift), "b")
 
-    for b in _msg:
+    for b in _bytearray_msg:
         # decrease
         b = format(b, "b")
-        bin_string = bin(int(b,2) - int(_shift, 2))
-        to_hex = int(bin_string, 2)
 
-        if to_hex < 0:
-            to_hex = 255 + to_hex
+        new_num = int(b,2) - int(_shift, 2)
 
-        new_bytearray.append(to_hex)
+        if new_num < 0:
+            new_num = new_num + 255
+
+        new_bytearray.append(new_num)
 
     return bytes(new_bytearray)
 
