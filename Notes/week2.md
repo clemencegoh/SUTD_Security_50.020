@@ -13,7 +13,7 @@ Currently to encrypt:
     - msg (plaintext)
     - key (hash function)
     - msg digest
-- **However**
+- **PROPERTIES OF A SECURE HASH**
     - Possible to still manipulate msg if not preimage resistant
     - preimage resistance:
         - for y = f(x):
@@ -45,7 +45,7 @@ For attacker:
 - Find collisions
     - easier, but less useful
          
-Stadard: Birthday paradox
+Standard: Birthday paradox
 - Due to concept of birthday paradox, found that collisions are found within effort 2^69 steps instead of 2^80
 - Made SHA-1 unreliable for wealthy companies with high computational power
 
