@@ -65,3 +65,22 @@ Integity format:
 Authenticity of msg:
 - send (msg, tag)
     - tag here is used to validate that it is from correct sender
+
+How do rainbow tables work?
+1. Naive implementation
+    - direct mapping 1:1
+    - Very large storage required
+2. Hash chains
+    - Store I1 + Ot (for each chain)
+    - Requires a hash function and reduction function
+    - For password hash x:
+        - check if x == O (any):
+            - if match:
+                - use hashchain to f(I1) -> R(O1) -> .... -> Ot-1
+            - else:
+                - new_x = f(R(x)) 
+                - check if new_x == O (any)
+                - repeat
+    
+    - This works since less storage used, more computation
+    - Objective would be to find if any chains contain x
