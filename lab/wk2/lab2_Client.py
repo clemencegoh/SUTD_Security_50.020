@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # DA+Nils 2018
 # Andrei + Z.TANG, 2019
+# Clemence Goh (1002075)
 
 """
 Lab2: Breaking Ciphers
