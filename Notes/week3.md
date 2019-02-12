@@ -54,4 +54,14 @@ Collision Attacks
 - This can be applied to CA certificates
 
 
-    
+---
+lesson #2
+---
+Integity format:
+- send (msg, msg')
+    - msg' here is unpredictable, complete with padding
+    - without padding, will be able to attack knowing the hash preimage
+
+Authenticity of msg:
+- send (msg, tag)
+    - tag here is used to validate that it is from correct sender
