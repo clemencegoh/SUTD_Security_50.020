@@ -1,0 +1,57 @@
+6 rainbow tables found
+memory available: 5148485222 bytes
+memory for rainbow chain traverse: 60800 bytes per hash, 912000 bytes for 15 hashes
+memory for rainbow table buffer: 6 x 9600016 bytes
+disk: ./6_letters\md5_loweralpha-numeric#6-6_0_3800x600000_0.rt: 9600000 bytes read
+disk: ./6_letters\md5_loweralpha-numeric#6-6_1_3800x600000_0.rt: 9600000 bytes read
+disk: ./6_letters\md5_loweralpha-numeric#6-6_2_3800x600000_0.rt: 9600000 bytes read
+disk: ./6_letters\md5_loweralpha-numeric#6-6_3_3800x600000_0.rt: 9600000 bytes read
+disk: ./6_letters\md5_loweralpha-numeric#6-6_4_3800x600000_0.rt: 9600000 bytes read
+disk: ./6_letters\md5_loweralpha-numeric#6-6_5_3800x600000_0.rt: 9600000 bytes read
+disk: finished reading all files
+plaintext of bbf89b7a1eca594f6f41826070139c1a is sso55t
+plaintext of f539ed6f2ec65a31faa7b16035392f63 is cancej
+plaintext of 07cdff4095e90aa18b274df6de559948 is owso9v
+plaintext of 7b1d955b927cda77f2ff1312bad374cd is lou0gf
+plaintext of 06c08d75cfdf9c8afafe2e98f648e9e5 is tthelu
+plaintext of a949c5e63e7c756c7d8640625684a959 is mlhdiu
+plaintext of 414e1a184a23079be349a3476aafa046 is nizedb
+plaintext of 522f117feda987da4fb8a181efd9059d is hed4eh
+plaintext of a6d57fa09fc1ad83bd4619967ed511d0 is tpoinu
+plaintext of 6ba1ac39b9f9e5dc3877612b9c3a4620 is di5gvz
+plaintext of b6e97576fed5ba1302097ca6b3ce603c is ofrorg
+plaintext of 2fc4bcccc0d388d37b90aad8c4b0d839 is egunbp
+plaintext of 829e25b39de19641339acf19a316d293 is dsmtoq
+plaintext of 67986bf7c321815d3c1ac3d252c70e0e is opmeny
+plaintext of e731648ab4f7e902536273eb4c5c7849 is aseasx
+
+statistics
+----------------------------------------------------------------
+plaintext found:                             15 of 15
+total time:                                  16.48 s
+time of chain traverse:                      12.94 s
+time of alarm check:                         3.44 s
+time of disk read:                           0.05 s
+hash & reduce calculation of chain traverse: 223702200
+hash & reduce calculation of alarm check:    58802369
+number of alarm:                             50741
+performance of chain traverse:               17.29 million/s
+performance of alarm check:                  17.10 million/s
+
+result
+----------------------------------------------------------------
+a6d57fa09fc1ad83bd4619967ed511d0  tpoinu  hex:74706f696e75
+522f117feda987da4fb8a181efd9059d  hed4eh  hex:686564346568
+bbf89b7a1eca594f6f41826070139c1a  sso55t  hex:73736f353574
+67986bf7c321815d3c1ac3d252c70e0e  opmeny  hex:6f706d656e79
+06c08d75cfdf9c8afafe2e98f648e9e5  tthelu  hex:747468656c75
+f539ed6f2ec65a31faa7b16035392f63  cancej  hex:63616e63656a
+414e1a184a23079be349a3476aafa046  nizedb  hex:6e697a656462
+b6e97576fed5ba1302097ca6b3ce603c  ofrorg  hex:6f66726f7267
+7b1d955b927cda77f2ff1312bad374cd  lou0gf  hex:6c6f75306766
+829e25b39de19641339acf19a316d293  dsmtoq  hex:64736d746f71
+07cdff4095e90aa18b274df6de559948  owso9v  hex:6f77736f3976
+6ba1ac39b9f9e5dc3877612b9c3a4620  di5gvz  hex:64693567767a
+e731648ab4f7e902536273eb4c5c7849  aseasx  hex:617365617378
+2fc4bcccc0d388d37b90aad8c4b0d839  egunbp  hex:6567756e6270
+a949c5e63e7c756c7d8640625684a959  mlhdiu  hex:6d6c68646975
