@@ -1,5 +1,8 @@
 # Secure hash function
 
+Not much different from last week
+---
+
 Authentication:
 1. Identity authentication
     - identity of sender
@@ -19,6 +22,7 @@ Authentication:
     - Compare if H(m) == C (sent ahead of time)
     
 ---
+
 Message authentication codes (MAC)
 ---
 - Introduce a key (secret)
@@ -28,6 +32,7 @@ Message authentication codes (MAC)
     - **note that key is symmetric**
     - Verifier will perform: H(k, m') == tag
     
+Comparing: x = H(k||m) vs x = H(m||k)
 
 - Vulnerabilities:
     - Attack 1: x = H(k, m)
@@ -36,6 +41,8 @@ Message authentication codes (MAC)
     - Attack 2: x = H(m, k)
         - second preimage attack
     
+How to solve this?
+- ![HMACs solution with OTP](./images/hmacs_solution.JPG)
     
 ---
 Storage of secrets
@@ -46,11 +53,12 @@ Storage of secrets
 
 
 ---
-Collision Attacks
+Collision Attacks (Square root attack)
 ---
 - Signing of good document with a matching malicious document
 - Effort needed is **sqrt(2^n)** or **2^(n/2)**
     - where n is the number of bits in the document
+    - This is due to the application of birthday paradox
 - This can be applied to CA certificates
 
 
@@ -66,6 +74,7 @@ Authenticity of msg:
 - send (msg, tag)
     - tag here is used to validate that it is from correct sender
 
+---
 How do rainbow tables work?
 1. Naive implementation
     - direct mapping 1:1

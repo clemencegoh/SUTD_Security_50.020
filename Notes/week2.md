@@ -8,6 +8,14 @@ Data Integrity
         - eavesdrop
         - spoof/insert
 
+Possible attack for OTP: (Covered in lab)
+- (m XOR OTP) XOR (m XOR m') = m' XOR OTP
+    - This means that the message can be manipulated without knowing OTP (if message is known beforehand)
+- This leads to the need for validation of **message integrity**
+
+---
+# The below shows ways to get message digest through hash functions
+---
 Currently to encrypt:
 - Use message digest to verify contents:
     - msg (plaintext)
@@ -73,3 +81,6 @@ Questions
     - ![overall compression](./images/sha_1_operation_overall.JPG)
     - Single:
     - ![single compression step in detail](./images/sha_1_single_round.JPG)
+
+- SHA-3 different from SHA-1 and SHA-2:
+    - ![SHA-3 using sponge-like method instead](./images/sha3_concept.jpg)
