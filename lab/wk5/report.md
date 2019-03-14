@@ -35,3 +35,9 @@ End of assembler dump.
 
 RIP starts at position 72.
 Follow this with 6 'E's.
+
+---
+Positions to note:
+- printf: `0x7ffff7e2d8f0`
+- pop rdi: `0x00007ffff7df705a`
+- Register holding string: `0x555555559670` (probably wrong)

