@@ -82,6 +82,14 @@ Ancient cipher
         - group 1's together, 2's together... Use as separate messages
         - try frequency analysis and get most frequent letter as 'e': must correspond to freq of english alphabet
         - key will be guessed from length and shift per message segment
+    - This is also possible for **BINARY** data:
+        - ```
+            map { 00: 01,
+                  01: 11,
+                  10: 00,
+                  11: 10
+                  }
+          ```
 5. Transposition cipher - change sequence only
     - **frequency analysis ineffective**
         - same letters, scrambled using key
