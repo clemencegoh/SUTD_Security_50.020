@@ -5,7 +5,7 @@
 - [3. Digests](#digest-sizes)
 
 
-##Ciphers
+## Ciphers
 - Types:
     - Substitution
         - Ceasar (attack: O(26))
@@ -17,7 +17,7 @@
         - Block
 
 
-##Malware
+## Malware
 - Types:
     - Virus
         - Spread through executable code
@@ -31,7 +31,7 @@
     - Ransomware
         - encrypts all files (holds them hostage)
         
-##Digest Sizes:
+## Digest Sizes:
 - Input: 512 bits
     - MD5:
         - 128 bits
@@ -45,7 +45,7 @@
     - Sha-3: ??
         - arbitrary
         
-##Commonly used primitives
+## Commonly used primitives
 - **One-way hash function**
     - sometimes also called as one-way compression function—compute a reduced hash value for a message 
     (e.g., SHA-256) Authentication
@@ -63,3 +63,6 @@
     - allows one to commit to a chosen value while keeping it hidden to others, 
     with the ability to reveal it later
 - **Cryptographically secure pseudorandom number generator**
+
+
+## Questions for mid term
