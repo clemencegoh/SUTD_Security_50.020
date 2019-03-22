@@ -3,74 +3,128 @@
 # Present skeleton file for 50.020 Security
 # Oka, SUTD, 2014
 
-# constants
-FULLROUND = 31
+#constants
+fullround=32
 
 # S-Box Layer
 sbox = [0xC, 0x5, 0x6, 0xB, 0x9, 0x0, 0xA, 0xD,
         0x3, 0xE, 0xF, 0x8, 0x4, 0x7, 0x1, 0x2]
 
-# PLayer
-pmt = [0, 16, 32, 48, 1, 17, 33, 49, 2, 18, 34, 50, 3, 19, 35, 51,
-       4, 20, 36, 52, 5, 21, 37, 53, 6, 22, 38, 54, 7, 23, 39, 55,
-       8, 24, 40, 56, 9, 25, 41, 57, 10, 26, 42, 58, 11, 27, 43, 59,
-       12, 28, 44, 60, 13, 29, 45, 61, 14, 30, 46, 62, 15, 31, 47, 63]
+inv_sbox = [0x5, 0xE, 0xF, 0x8, 0xC, 0x1, 0x2, 0xD,
+        0xB, 0x4, 0x6, 0x3, 0x0, 0x7, 0x9, 0xA]
+
+#PLayer
+pmt=[0,16,32,48,1,17,33,49,2,18,34,50,3,19,35,51,\
+     4,20,36,52,5,21,37,53,6,22,38,54,7,23,39,55,\
+     8,24,40,56,9,25,41,57,10,26,42,58,11,27,43,59,\
+     12,28,44,60,13,29,45,61,14,30,46,62,15,31,47,63]
 
 # Rotate left: 0b1001 --> 0b0011
-
-
-def rol(val, r_bits, max_bits): return \
-    (val << r_bits % max_bits) & (2**max_bits - 1) | \
-    ((val & (2**max_bits - 1)) >> (max_bits - (r_bits % max_bits)))
+rol = lambda val, r_bits, max_bits: \
+    (val << r_bits%max_bits) & (2**max_bits-1) | \
+    ((val & (2**max_bits-1)) >> (max_bits-(r_bits%max_bits)))
 
 # Rotate right: 0b1001 --> 0b1100
+ror = lambda val, r_bits, max_bits: \
+    ((val & (2**max_bits-1)) >> r_bits%max_bits) | \
+    (val << (max_bits-(r_bits%max_bits)) & (2**max_bits-1))
 
+# substitute leftmost 4 bits
+def step2(_key):
+    left_bits = _key >> 76
+    first_4 = sbox[left_bits] << 76
+    second_76 = (_key & int('1' * 76, 2))
+    return first_4 + second_76
 
-def ror(val, r_bits, max_bits): return \
-    ((val & (2**max_bits - 1)) >> r_bits % max_bits) | \
-    (val << (max_bits - (r_bits % max_bits)) & (2**max_bits - 1))
+# xor bits 19-15 with round_counter
+def step3(_key, _round_counter):
+    return _key ^ (_round_counter << 15)
 
 
 def genRoundKeys(key):
-    pass
+    roundkeys = {0:32}
+    for i in range(1, fullround + 1):
+        # get only leftmost 64 bits
+        roundkeys[i] = key >> 16
 
+        # rotate left by 61
+        key = rol(key, 61, 80)
 
-def addRoundKey(state, Ki):
-    pass
+        # the left-most four bits are passed through the present S-box
+        key = step2(key)
 
+        # the round_counter value i is exclusive-ored with bits k19 k18 k17 k16 k15 
+        # of K with the least significant bit of round_counter on the right
+        key = step3(key, i)
+    return roundkeys
 
-def sBoxLayer(state):
-    pass
+def addRoundKey(state,Ki):
+    return state ^ Ki
+
+############################ Encryption ############################
+
+def sBoxLayer(state, sdict):
+    # get individual w
+    w_list = []
+    for i in range(16):
+        mask = 0b1111 << 4*i
+        w = state & mask
+        w = w >> 4*i
+        w_list.append(w)
+
+    w_sub = [sdict[w] for w in w_list]
+
+    out = 0
+    for i in range(16):
+        out += (w_sub[i] << 4*i)
+
+    return out
 
 
 def pLayer(state):
-    pass
+    out = 0
+    
+    for i in range(64):
+        mask = 0x1 << i
+        bit = (state & mask) >> i
 
+        new_pos = pmt[i]
+     
+        out += bit * (0x1 << new_pos)
+    return out
 
 def present_round(state, roundKey):
+    state = addRoundKey(state, roundKey)
+    state = sBoxLayer(state, sbox)
+    state = pLayer(state)
     return state
-
-
-def present_inv_round(state, roundKey):
-    return state
-
 
 def present(plain, key):
-    K = genRoundKeys(key)
+    keys = genRoundKeys(key)
     state = plain
-    for i in range(1, FULLROUND + 1):
-        state = present_round(state, K[i])
-    state = addRoundKey(state, K[32])
+    for i in range(1, fullround + 1):
+        state = present_round(state, keys[i])
+    state = addRoundKey(state, keys[32])
     return state
 
+############################ Decryption ############################
+
+def present_inv_round(state, key):
+    state = pLayer(state)
+    state = pLayer(state)
+    state = sBoxLayer(state, inv_sbox)
+    state = addRoundKey(state, key)
+    return state
 
 def present_inv(cipher, key):
-    K = genRoundKeys(key)
+    keys = genRoundKeys(key)
     state = cipher
-    state = addRoundKey(state, K[32])
-    for i in range(FULLROUND, 0, -1):
-        state = present_inv_round(state, K[i])
+    state = addRoundKey(state, keys[32])
+    for i in range(fullround, 0, -1):
+        state = present_inv_round(state, keys[i])
     return state
+
+################################# Main #################################
 
 if __name__ == "__main__":
     # Testvector for key schedule
