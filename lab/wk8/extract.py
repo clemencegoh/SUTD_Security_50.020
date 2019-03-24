@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 # ECB plaintext extraction skeleton file for 50.020 Security
 # Oka, SUTD, 2014
+
+
+
 import argparse
 from present import present_inv
+
+
 def getInfo(headerfile):
     with open(headerfile, 'rb') as f:
         info_bytes = f.read()
     return info_bytes
+
 
 def bytes_to_integer(byte_array):
     i = 0
@@ -15,6 +21,7 @@ def bytes_to_integer(byte_array):
        out += byte << 8*(len(byte_array)-i-1)
        i+=1
     return out
+
 
 def integer_to_bytes(integer,num_bytes):
     out = []
@@ -26,6 +33,7 @@ def integer_to_bytes(integer,num_bytes):
     out = bytes(out)
     return out
 
+
 def extract(infile,outfile,headerfile):
     blocksize = 8  # bytes
     frequency_dict = {}
@@ -33,12 +41,6 @@ def extract(infile,outfile,headerfile):
     with open(infile, 'rb') as f_in:
         block = f_in.read(blocksize)
         out = []
-#       while block:
-#            block = bytes_to_integer(block)
-#            transformed_block = present_inv(block, key)
-#            out += integer_to_bytes(transformed_block,blocksize)
-#            block = f_in.read(blocksize)
-#    for byte in out:1
         while block:
             if block in frequency_dict.keys():
                 frequency_dict[block] += 1

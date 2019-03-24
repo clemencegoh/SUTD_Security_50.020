@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 # ECB wrapper skeleton file for 50.020 Security
 # Oka, SUTD, 2014
+
+"""
+Done by:
+Clemence Goh (1002075)
+Kenjyi Lim
+"""
+
+
 from present import present, present_inv
 import argparse
 
@@ -47,6 +55,14 @@ def ecb(infile, outfile, key, mode):
     
 
 def setDefault(infile, outfile, keyfile, mode):
+    """
+    Sets default params for easier testing/input in command line
+    :param infile: file to read
+    :param outfile: file to output
+    :param keyfile: file to read key from
+    :param mode: mode, either encrypt or decrypt only
+    :return: all 4 fields initialized with their default values
+    """
 
     plainfile = "Tux.ppm"
     encrypted_file = "Tux_encrypted.ppm"
@@ -78,7 +94,6 @@ def setDefault(infile, outfile, keyfile, mode):
             outfile = decrypted_file
     
     return infile, outfile, key, mode
-
 
 
 if __name__=="__main__":

@@ -3,6 +3,13 @@
 # Present skeleton file for 50.020 Security
 # Oka, SUTD, 2014
 
+"""
+Done by:
+Clemence Goh (1002075)
+Kenjyi Lim
+"""
+
+
 #constants
 fullround=32
 
@@ -14,9 +21,9 @@ inv_sbox = [0x5, 0xE, 0xF, 0x8, 0xC, 0x1, 0x2, 0xD,
         0xB, 0x4, 0x6, 0x3, 0x0, 0x7, 0x9, 0xA]
 
 #PLayer
-pmt=[0,16,32,48,1,17,33,49,2,18,34,50,3,19,35,51,\
-     4,20,36,52,5,21,37,53,6,22,38,54,7,23,39,55,\
-     8,24,40,56,9,25,41,57,10,26,42,58,11,27,43,59,\
+pmt=[0,16,32,48,1,17,33,49,2,18,34,50,3,19,35,51,
+     4,20,36,52,5,21,37,53,6,22,38,54,7,23,39,55,
+     8,24,40,56,9,25,41,57,10,26,42,58,11,27,43,59,
      12,28,44,60,13,29,45,61,14,30,46,62,15,31,47,63]
 
 # Rotate left: 0b1001 --> 0b0011
@@ -29,12 +36,14 @@ ror = lambda val, r_bits, max_bits: \
     ((val & (2**max_bits-1)) >> r_bits%max_bits) | \
     (val << (max_bits-(r_bits%max_bits)) & (2**max_bits-1))
 
+
 # substitute leftmost 4 bits
 def step2(_key):
     left_bits = _key >> 76
     first_4 = sbox[left_bits] << 76
     second_76 = (_key & int('1' * 76, 2))
     return first_4 + second_76
+
 
 # xor bits 19-15 with round_counter
 def step3(_key, _round_counter):
@@ -53,15 +62,19 @@ def genRoundKeys(key):
         # the left-most four bits are passed through the present S-box
         key = step2(key)
 
-        # the round_counter value i is exclusive-ored with bits k19 k18 k17 k16 k15 
-        # of K with the least significant bit of round_counter on the right
+        # xor round counter rightmost bit with ket pos 19-15
         key = step3(key, i)
     return roundkeys
+
 
 def addRoundKey(state,Ki):
     return state ^ Ki
 
-############################ Encryption ############################
+
+"""
+Encryption functions
+"""
+
 
 def sBoxLayer(state, sdict):
     # get individual w
@@ -93,11 +106,13 @@ def pLayer(state):
         out += bit * (0x1 << new_pos)
     return out
 
+
 def present_round(state, roundKey):
     state = addRoundKey(state, roundKey)
     state = sBoxLayer(state, sbox)
     state = pLayer(state)
     return state
+
 
 def present(plain, key):
     keys = genRoundKeys(key)
@@ -107,7 +122,11 @@ def present(plain, key):
     state = addRoundKey(state, keys[32])
     return state
 
-############################ Decryption ############################
+
+"""
+Decryption functions
+"""
+
 
 def present_inv_round(state, key):
     state = pLayer(state)
@@ -124,7 +143,6 @@ def present_inv(cipher, key):
         state = present_inv_round(state, keys[i])
     return state
 
-################################# Main #################################
 
 if __name__ == "__main__":
     # Testvector for key schedule
